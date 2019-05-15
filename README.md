@@ -6,4 +6,4 @@ the same motion with a DC motor driving a pointer.
 
 Setup:
 
-<img src="./Picture1.jpg">
+<img src="./Picture1.PNG">

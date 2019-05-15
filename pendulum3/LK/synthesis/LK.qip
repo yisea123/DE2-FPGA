@@ -1,0 +1,143 @@
+set_global_assignment -entity "LK" -library "LK" -name IP_TOOL_NAME "Qsys"
+set_global_assignment -entity "LK" -library "LK" -name IP_TOOL_VERSION "13.0sp1"
+set_global_assignment -entity "LK" -library "LK" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -library "LK" -name SOPCINFO_FILE [file join $::quartus(qip_path) "../../LK.sopcinfo"]
+set_instance_assignment -entity "LK" -library "LK" -name SLD_INFO "QSYS_NAME LK HAS_SOPCINFO 1 GENERATION_ID 1527064310"
+set_global_assignment -library "LK" -name MISC_FILE [file join $::quartus(qip_path) "../../LK.cmp"]
+set_global_assignment -name SYNTHESIS_ONLY_QIP ON
+set_global_assignment -library "LK" -name MISC_FILE [file join $::quartus(qip_path) "../../LK.qsys"]
+
+set_global_assignment -library "LK" -name VERILOG_FILE [file join $::quartus(qip_path) "LK.v"]
+set_global_assignment -library "LK" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_irq_mapper.sv"]
+set_global_assignment -library "LK" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_merlin_width_adapter.sv"]
+set_global_assignment -library "LK" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_merlin_address_alignment.sv"]
+set_global_assignment -library "LK" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_merlin_burst_uncompressor.sv"]
+set_global_assignment -library "LK" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_merlin_arbitrator.sv"]
+set_global_assignment -library "LK" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_rsp_xbar_mux_001.sv"]
+set_global_assignment -library "LK" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_rsp_xbar_mux.sv"]
+set_global_assignment -library "LK" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_rsp_xbar_demux_002.sv"]
+set_global_assignment -library "LK" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_rsp_xbar_demux.sv"]
+set_global_assignment -library "LK" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_cmd_xbar_mux.sv"]
+set_global_assignment -library "LK" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_cmd_xbar_demux_001.sv"]
+set_global_assignment -library "LK" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_cmd_xbar_demux.sv"]
+set_global_assignment -library "LK" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_reset_controller.v"]
+set_global_assignment -library "LK" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_reset_synchronizer.v"]
+set_global_assignment -library "LK" -name SDC_FILE [file join $::quartus(qip_path) "submodules/altera_reset_controller.sdc"]
+set_global_assignment -library "LK" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_merlin_burst_adapter.sv"]
+set_global_assignment -library "LK" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_merlin_traffic_limiter.sv"]
+set_global_assignment -library "LK" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_avalon_st_pipeline_base.v"]
+set_global_assignment -library "LK" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_id_router_002.sv"]
+set_global_assignment -library "LK" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_id_router_001.sv"]
+set_global_assignment -library "LK" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_id_router.sv"]
+set_global_assignment -library "LK" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_addr_router_001.sv"]
+set_global_assignment -library "LK" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_addr_router.sv"]
+set_global_assignment -library "LK" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_avalon_sc_fifo.v"]
+set_global_assignment -library "LK" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_merlin_slave_agent.sv"]
+set_global_assignment -library "LK" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_merlin_master_agent.sv"]
+set_global_assignment -library "LK" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_merlin_slave_translator.sv"]
+set_global_assignment -library "LK" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_merlin_master_translator.sv"]
+set_global_assignment -library "LK" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_PIO_beamsensor.v"]
+set_global_assignment -library "LK" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_PIO_motorvolt.v"]
+set_global_assignment -library "LK" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_PIO_isrbits.v"]
+set_global_assignment -library "LK" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_PIO_usecs.v"]
+set_global_assignment -library "LK" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_PIO_encoders.v"]
+set_global_assignment -library "LK" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_KeyButtons.v"]
+set_global_assignment -library "LK" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_LEDRed.v"]
+set_global_assignment -library "LK" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_LEDGreen.v"]
+set_global_assignment -library "LK" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_HexDisplays7to4.v"]
+set_global_assignment -library "LK" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_HexDisplays3to0.v"]
+set_global_assignment -library "LK" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_jtag_uart_0.v"]
+set_global_assignment -library "LK" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_timer_0.v"]
+set_global_assignment -library "LK" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_SliderSW.v"]
+set_global_assignment -library "LK" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_sram_0.v"]
+set_global_assignment -library "LK" -name SOURCE_FILE [file join $::quartus(qip_path) "submodules/LK_nios2_qsys_0.ocp"]
+set_global_assignment -library "LK" -name SDC_FILE [file join $::quartus(qip_path) "submodules/LK_nios2_qsys_0.sdc"]
+set_global_assignment -library "LK" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_nios2_qsys_0.v"]
+set_global_assignment -library "LK" -name SOURCE_FILE [file join $::quartus(qip_path) "submodules/LK_nios2_qsys_0_bht_ram.mif"]
+set_global_assignment -library "LK" -name SOURCE_FILE [file join $::quartus(qip_path) "submodules/LK_nios2_qsys_0_dc_tag_ram.mif"]
+set_global_assignment -library "LK" -name SOURCE_FILE [file join $::quartus(qip_path) "submodules/LK_nios2_qsys_0_ic_tag_ram.mif"]
+set_global_assignment -library "LK" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_nios2_qsys_0_jtag_debug_module_sysclk.v"]
+set_global_assignment -library "LK" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_nios2_qsys_0_jtag_debug_module_tck.v"]
+set_global_assignment -library "LK" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_nios2_qsys_0_jtag_debug_module_wrapper.v"]
+set_global_assignment -library "LK" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_nios2_qsys_0_mult_cell.v"]
+set_global_assignment -library "LK" -name SOURCE_FILE [file join $::quartus(qip_path) "submodules/LK_nios2_qsys_0_ociram_default_contents.mif"]
+set_global_assignment -library "LK" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_nios2_qsys_0_oci_test_bench.v"]
+set_global_assignment -library "LK" -name SOURCE_FILE [file join $::quartus(qip_path) "submodules/LK_nios2_qsys_0_rf_ram_a.mif"]
+set_global_assignment -library "LK" -name SOURCE_FILE [file join $::quartus(qip_path) "submodules/LK_nios2_qsys_0_rf_ram_b.mif"]
+set_global_assignment -library "LK" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/LK_nios2_qsys_0_test_bench.v"]
+
+set_global_assignment -entity "LK_irq_mapper" -library "LK" -name IP_TOOL_NAME "altera_irq_mapper"
+set_global_assignment -entity "LK_irq_mapper" -library "LK" -name IP_TOOL_VERSION "13.0"
+set_global_assignment -entity "LK_irq_mapper" -library "LK" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -entity "altera_merlin_width_adapter" -library "LK" -name IP_TOOL_NAME "altera_merlin_width_adapter"
+set_global_assignment -entity "altera_merlin_width_adapter" -library "LK" -name IP_TOOL_VERSION "13.0"
+set_global_assignment -entity "altera_merlin_width_adapter" -library "LK" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -entity "LK_rsp_xbar_mux_001" -library "LK" -name IP_TOOL_NAME "altera_merlin_multiplexer"
+set_global_assignment -entity "LK_rsp_xbar_mux_001" -library "LK" -name IP_TOOL_VERSION "13.0"
+set_global_assignment -entity "LK_rsp_xbar_mux_001" -library "LK" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -entity "LK_rsp_xbar_mux" -library "LK" -name IP_TOOL_NAME "altera_merlin_multiplexer"
+set_global_assignment -entity "LK_rsp_xbar_mux" -library "LK" -name IP_TOOL_VERSION "13.0"
+set_global_assignment -entity "LK_rsp_xbar_mux" -library "LK" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -entity "LK_rsp_xbar_demux_002" -library "LK" -name IP_TOOL_NAME "altera_merlin_demultiplexer"
+set_global_assignment -entity "LK_rsp_xbar_demux_002" -library "LK" -name IP_TOOL_VERSION "13.0"
+set_global_assignment -entity "LK_rsp_xbar_demux_002" -library "LK" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -entity "LK_rsp_xbar_demux" -library "LK" -name IP_TOOL_NAME "altera_merlin_demultiplexer"
+set_global_assignment -entity "LK_rsp_xbar_demux" -library "LK" -name IP_TOOL_VERSION "13.0"
+set_global_assignment -entity "LK_rsp_xbar_demux" -library "LK" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -entity "LK_cmd_xbar_mux" -library "LK" -name IP_TOOL_NAME "altera_merlin_multiplexer"
+set_global_assignment -entity "LK_cmd_xbar_mux" -library "LK" -name IP_TOOL_VERSION "13.0"
+set_global_assignment -entity "LK_cmd_xbar_mux" -library "LK" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -entity "LK_cmd_xbar_demux_001" -library "LK" -name IP_TOOL_NAME "altera_merlin_demultiplexer"
+set_global_assignment -entity "LK_cmd_xbar_demux_001" -library "LK" -name IP_TOOL_VERSION "13.0"
+set_global_assignment -entity "LK_cmd_xbar_demux_001" -library "LK" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -entity "LK_cmd_xbar_demux" -library "LK" -name IP_TOOL_NAME "altera_merlin_demultiplexer"
+set_global_assignment -entity "LK_cmd_xbar_demux" -library "LK" -name IP_TOOL_VERSION "13.0"
+set_global_assignment -entity "LK_cmd_xbar_demux" -library "LK" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -entity "altera_reset_controller" -library "LK" -name IP_TOOL_NAME "altera_reset_controller"
+set_global_assignment -entity "altera_reset_controller" -library "LK" -name IP_TOOL_VERSION "13.0"
+set_global_assignment -entity "altera_reset_controller" -library "LK" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -entity "altera_merlin_burst_adapter" -library "LK" -name IP_TOOL_NAME "altera_merlin_burst_adapter"
+set_global_assignment -entity "altera_merlin_burst_adapter" -library "LK" -name IP_TOOL_VERSION "13.0"
+set_global_assignment -entity "altera_merlin_burst_adapter" -library "LK" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -entity "altera_merlin_traffic_limiter" -library "LK" -name IP_TOOL_NAME "altera_merlin_traffic_limiter"
+set_global_assignment -entity "altera_merlin_traffic_limiter" -library "LK" -name IP_TOOL_VERSION "13.0"
+set_global_assignment -entity "altera_merlin_traffic_limiter" -library "LK" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -entity "LK_id_router_002" -library "LK" -name IP_TOOL_NAME "altera_merlin_router"
+set_global_assignment -entity "LK_id_router_002" -library "LK" -name IP_TOOL_VERSION "13.0"
+set_global_assignment -entity "LK_id_router_002" -library "LK" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -entity "LK_id_router_001" -library "LK" -name IP_TOOL_NAME "altera_merlin_router"
+set_global_assignment -entity "LK_id_router_001" -library "LK" -name IP_TOOL_VERSION "13.0"
+set_global_assignment -entity "LK_id_router_001" -library "LK" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -entity "LK_id_router" -library "LK" -name IP_TOOL_NAME "altera_merlin_router"
+set_global_assignment -entity "LK_id_router" -library "LK" -name IP_TOOL_VERSION "13.0"
+set_global_assignment -entity "LK_id_router" -library "LK" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -entity "LK_addr_router_001" -library "LK" -name IP_TOOL_NAME "altera_merlin_router"
+set_global_assignment -entity "LK_addr_router_001" -library "LK" -name IP_TOOL_VERSION "13.0"
+set_global_assignment -entity "LK_addr_router_001" -library "LK" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -entity "LK_addr_router" -library "LK" -name IP_TOOL_NAME "altera_merlin_router"
+set_global_assignment -entity "LK_addr_router" -library "LK" -name IP_TOOL_VERSION "13.0"
+set_global_assignment -entity "LK_addr_router" -library "LK" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -entity "altera_avalon_sc_fifo" -library "LK" -name IP_TOOL_NAME "altera_avalon_sc_fifo"
+set_global_assignment -entity "altera_avalon_sc_fifo" -library "LK" -name IP_TOOL_VERSION "13.0"
+set_global_assignment -entity "altera_avalon_sc_fifo" -library "LK" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -entity "altera_merlin_slave_agent" -library "LK" -name IP_TOOL_NAME "altera_merlin_slave_agent"
+set_global_assignment -entity "altera_merlin_slave_agent" -library "LK" -name IP_TOOL_VERSION "13.0"
+set_global_assignment -entity "altera_merlin_slave_agent" -library "LK" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -entity "altera_merlin_master_agent" -library "LK" -name IP_TOOL_NAME "altera_merlin_master_agent"
+set_global_assignment -entity "altera_merlin_master_agent" -library "LK" -name IP_TOOL_VERSION "13.0"
+set_global_assignment -entity "altera_merlin_master_agent" -library "LK" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -entity "altera_merlin_slave_translator" -library "LK" -name IP_TOOL_NAME "altera_merlin_slave_translator"
+set_global_assignment -entity "altera_merlin_slave_translator" -library "LK" -name IP_TOOL_VERSION "13.0"
+set_global_assignment -entity "altera_merlin_slave_translator" -library "LK" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -entity "altera_merlin_master_translator" -library "LK" -name IP_TOOL_NAME "altera_merlin_master_translator"
+set_global_assignment -entity "altera_merlin_master_translator" -library "LK" -name IP_TOOL_VERSION "13.0"
+set_global_assignment -entity "altera_merlin_master_translator" -library "LK" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -entity "LK_jtag_uart_0" -library "LK" -name IP_TOOL_NAME "altera_avalon_jtag_uart"
+set_global_assignment -entity "LK_jtag_uart_0" -library "LK" -name IP_TOOL_VERSION "13.0.1.99.2"
+set_global_assignment -entity "LK_jtag_uart_0" -library "LK" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -entity "LK_timer_0" -library "LK" -name IP_TOOL_NAME "altera_avalon_timer"
+set_global_assignment -entity "LK_timer_0" -library "LK" -name IP_TOOL_VERSION "13.0.1.99.2"
+set_global_assignment -entity "LK_timer_0" -library "LK" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -entity "LK_nios2_qsys_0" -library "LK" -name IP_TOOL_NAME "altera_nios2_qsys"
+set_global_assignment -entity "LK_nios2_qsys_0" -library "LK" -name IP_TOOL_VERSION "13.0"
+set_global_assignment -entity "LK_nios2_qsys_0" -library "LK" -name IP_TOOL_ENV "Qsys"

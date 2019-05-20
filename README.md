@@ -7,3 +7,4 @@ the same motion with a DC motor driving a pointer (control a DC motor to mimick 
 Setup:
 
 <img src="./Picture1.PNG">
+<img src="./Capture2.jpg">

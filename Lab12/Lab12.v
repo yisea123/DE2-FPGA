@@ -91,7 +91,8 @@
 		Hbridge_InB, //GPIO_0[1]
 		Hbridge_PWM, //GPIO_0[2]
 		beam,			//GPIO_0[5]
-		pid_out
+		pid_out, 
+		microseconds
 	);
 
 ////////////////////////	Clock Input	 	////////////////////////
@@ -119,6 +120,7 @@ output Hbridge_PWM; //GPIO_0[2]
 output oscilloscope;
 output latency;
 output [9:0] pid_out;
+output [31:0] microseconds;
 ////////////////////////	7-SEG Dispaly	////////////////////////
 
 output	[6:0]	HEX0;					//	Seven Segment Digit 0
@@ -163,9 +165,9 @@ nios_system  p0(
 		  .encoderain_export  			(encoderain),
 		  .encoderbin_export  			(encoderbin),
 		  .keys_export                    (KEY),        //                      keys.export
-		//.microseconds_export            (microseconds),
+		  .microseconds_export            (microseconds),
 		//.motorvoltage_export 			(motorvoltage),
-		//.beam_export						(beam_out),
+		  .beam_export						(beam_out),
 		  .pid_out_export              (pid_out)
 		//.oscilloscope_export           (oscilloscope)			
 	);
@@ -247,6 +249,8 @@ begin
 		CEcount <= CEcount+1'b1;
 end
 
+///////////////////////////////////
+
 assign Hbridge_PWM = out;
 parameter PWM_IN_SIZE = 10;
 reg signed [PWM_IN_SIZE-1:0] value;
@@ -281,6 +285,19 @@ begin
 		else 				out <= 1'b0; 
 	end
 end	
+
+
+/////$$$$$$$$$$$// for timer //$$$$$$$$$$$$/////
+reg[6:0] CEcount1;
+reg [31:0] microseconds;
+wire CE_micro = (CEcount1 == 49);
+
+always@(posedge CLOCK_50)
+	if(CE_micro) 	CEcount1 <= 0;
+	else 			CEcount1 <= CEcount1 + 1'b1;
+
+always@(posedge CLOCK_50)
+	if(CE_micro)	microseconds <= microseconds + 1'b1;
 
 
 /*

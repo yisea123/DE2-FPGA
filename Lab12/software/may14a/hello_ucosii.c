@@ -1,3 +1,4 @@
+
 /*************************************************************************
 * Copyright (c) 2004 Altera Corporation, San Jose, California, USA.      *
 * All rights reserved. All use of this software and documentation is     *
@@ -27,7 +28,6 @@
 *     minutes per iteration.                                             *
 **************************************************************************/
 
-
 #include <stdio.h>
 #include "includes.h"
 #include "system.h"
@@ -43,9 +43,9 @@ typedef INT8U bool;
 
 /* Definition of Task Stacks */
 #define   TASK_STACKSIZE       2048
-//OS_STK    keyTask_stk[TASK_STACKSIZE];
 OS_STK    PIDtask_stk[TASK_STACKSIZE];
 OS_STK    tunePIDtask_stk[TASK_STACKSIZE];
+OS_STK    Beamtask_stk[TASK_STACKSIZE];
 
 INT8U err;
 #define CE(x) if ((err = x) != OS_NO_ERR) \
@@ -67,7 +67,7 @@ alt_up_parallel_port_dev *hex7to4_dev;
 alt_up_parallel_port_dev *pidout_dev;
 alt_up_parallel_port_dev *encoderinA;
 alt_up_parallel_port_dev *encoderinB;
-//alt_up_parallel_port_dev *beam_dev;
+alt_up_parallel_port_dev *beam_dev;
 
 ////////////////// Declare variables ///////////////
 static int start_time;
@@ -75,14 +75,15 @@ int pid_time = 0;
 volatile int enc_tick = 0;
 volatile int sw = 0;
 int sw_digit[8];
-unsigned int key; 
+unsigned int key;
 int ref_angle = 0;
 int Kpid[3] = {4, 1, 10};
 
 /* Definition of Task Priorities */
 
-#define PIDtask_PRIORITY    1
+#define PIDtask_PRIORITY    	1
 #define tunePIDtask_PRIORITY    3
+#define Beamtask_PRIORITY		5
 
 ////////////////////// Function prototype /////////////////////
 void * ENC_A_context;
@@ -90,10 +91,7 @@ void * ENC_B_context;
 void * BEAM_context;
 void * KEY_context;
 void OpenPortDevs(void);
-void InitMicrosecs(void);
-int GetMicrosecs(unsigned long int);
 int display(int);
-void displayAngleRef(int);
 static void IRQ_encoderAin(void *);
 static void IRQ_encoderBin(void *);
 static void IRQ_SWITCHES(void *);
@@ -139,14 +137,14 @@ void OpenPortDevs(void){
 	if (encoderinB == NULL) printf("Failed to open EncoderB\n");
 	else printf("Opened Successful EncoderB\n");
 	// For beam
-	//beam_dev = alt_up_parallel_port_open_dev("/dev/beam");
-	//if (beam_dev == NULL) printf("Failed to open beam\n");
-	//else printf("Opened Successful beam\n");
+	beam_dev = alt_up_parallel_port_open_dev("/dev/Beam");
+	if (beam_dev == NULL) printf("Failed to open beam\n");
+	else printf("Opened Successful beam\n");
 }
 
-void InitMicrosecs(void){ start_time = alt_up_parallel_port_read_data(usecs_dev); }
+int InitMicrosecs(void){ return alt_up_parallel_port_read_data(usecs_dev); }
 
-int GetMicrosecs(void){	return (alt_up_parallel_port_read_data(usecs_dev) - start_time); }
+int GetMicrosecs(unsigned long int start_t){	return (alt_up_parallel_port_read_data(usecs_dev) - start_t); }
 
 void int_to_bin_digit(unsigned int in, int count, int* out)
 {
@@ -160,9 +158,9 @@ void int_to_bin_digit(unsigned int in, int count, int* out)
 }
 
 ///////////////// Display HEX ///////////////
-int display(int value) 
+int display(int value)
 {
-	switch (value) 
+	switch (value)
 	{
 		case -1:	return (0x40);
 		case 0:		return (0x3F);
@@ -181,21 +179,21 @@ int display(int value)
 }
 
 ///////////////// Display set position ///////////////
-void displayRef(int value) 
+void displayRef(int value)
 {
 	int angle = value;
 	int DIGITS[4];
 	int k;
-	if(angle <0) 
+	if(angle <0)
 	{
 		DIGITS[3] = -1;
 		angle = -angle;
-	} 
-	else 
+	}
+	else
 	{
 		DIGITS[3] = 10;
 	}
-	for(k=0;k<3;k++) 
+	for(k=0;k<3;k++)
 	{
 		DIGITS[k] = angle % 10;
 		angle /= 10;
@@ -247,12 +245,12 @@ static void IRQ_encoderBin(void *context)
 	OSSemPend(Sem,0,&err);
 
 	IOWR(ENCODERBIN_BASE, 3, 0x01);
-	
+
 	if (!(IORD(ENCODERAIN_BASE, 0) ^ IORD(ENCODERBIN_BASE, 0)))
 		++enc_tick;
 	else
 		--enc_tick;
-	
+
 	OSSemPost(Sem);
 }
 
@@ -262,11 +260,11 @@ void IRQ_SWITCHES(void* context)
 	OSSemPend(Sem,0,&err);
 	IOWR(SLIDERSW_BASE,3,0x01);
 	sw = alt_up_parallel_port_read_data(sw_dev);
-	
+
 	int_to_bin_digit(sw, 8, sw_digit);
 
 	printf("@@@@@@@@@@@@@@ sw_dev = %d @@@@@@@@@@@@@@@@\n", sw);
-	
+
 	if((sw_digit[0] == 0) && (sw_digit[1] == 0))		ref_angle = 0;
 	else if ((sw_digit[1] == 0) && (sw_digit[0] == 1))	ref_angle = 90;
 	else if ((sw_digit[1] == 1) && (sw_digit[0] == 0))	ref_angle = 180;
@@ -313,7 +311,6 @@ void IRQ_KEYS(void* context)
 	}
 
 	printf("Kp: %d, Ki: %d, Kd: %d\n", Kpid[0], Kpid[1], Kpid[2]);
-	//printf("PID consumed time = %d us", pid_time);
 
 	OSSemPost(Sem);
 	return;
@@ -324,8 +321,8 @@ static void IRQ_beam(void *context)
 {
 	OSSemPend(Sem,0,&err);
 
-	//IOWR(BEAMSIGNAL_BASE, 3, 0x01);
-		
+	IOWR(BEAM_BASE, 3, 0x01);
+
 	OSSemPost(Sem);
 }
 
@@ -353,14 +350,14 @@ void PIDtask(void* pdata)
 	while (1)
 	{
 		OSSemPend(Sem,0,&err);
-		
+
 		a_err = ref_angle*10/3 - enc_tick;
 
 		// Convert volt to pwm signal
-		InitMicrosecs();
+		start_time = InitMicrosecs();
 		volt = motorVolt(a_err);
-		pid_time = GetMicrosecs();
-		//printf("PID execution time = %d us", pid_time);
+		pid_time = GetMicrosecs(start_time);
+		printf("PID execution time = %d us\n", pid_time);
 
 		// send pwm signal to port PIDout
 		alt_up_parallel_port_write_data(pidout_dev, volt);
@@ -369,7 +366,7 @@ void PIDtask(void* pdata)
 		printf("Encoder feedback: %d, Angle: %d\n", enc_tick, enc_tick*3/10);
 		printf("error: %d, angle_error %d\n", a_err, a_err*3/10);
 		printf("Voltage to PWM: %d\n\n",volt);
-		
+
 		displayAct(enc_tick*3/10);
 
 		OSSemPost(Sem);
@@ -384,11 +381,11 @@ void tunePIDtask(void* pdata)
 	{
 		OSSemPend(Sem,0,&err);
 		key = IORD(KEYBUTTONS_BASE, 0);
-		
+
 		IOWR(SLIDERSW_BASE,3,0x01);
 		sw = alt_up_parallel_port_read_data(sw_dev);
 		int_to_bin_digit(sw, 8, sw_digit);
-	
+
 		switch(key)
 		{
 			case 1: // KEY 0 - Reset PID
@@ -409,13 +406,75 @@ void tunePIDtask(void* pdata)
 				else 	   			 Kpid[2]--;
 				break;
 		}
-		
+
 		printf("Kp: %d, Ki: %d, Kd: %d\n", Kpid[0], Kpid[1], Kpid[2]);
 		OSSemPost(Sem);
 		OSTimeDlyHMSM(0, 0, 0, 500); // Update every 100 miliseconds
 	}
 }
 
+////////////////////// Beam sensor Task ////////////////////////
+void Beamtask(void* pdata)
+{
+	unsigned long int recordedTime[3] = {0, 0, 0};
+	unsigned int timePtr = 0;
+	unsigned long int startTime = 0;
+	int speed;
+
+	while (1)
+	{
+		OSSemPend(Sem, 200,&err);
+
+		if (err == OS_NO_ERR)
+		{
+			switch (timePtr)
+			{
+				case 0:
+					startTime = InitMicrosecs();
+					timePtr++;
+					break;
+				case 1:
+					recordedTime[0] = GetMicrosecs(startTime);
+					timePtr++;
+					break;
+				case 2:
+					recordedTime[1] = GetMicrosecs(startTime) - recordedTime[0];
+					timePtr++;
+					break;
+				case 3:
+					recordedTime[2] = GetMicrosecs(startTime) - recordedTime[1] - recordedTime[0];
+					speed = 40*1000000 / (recordedTime[0]+recordedTime[1]+recordedTime[2]); // 40 is length of the beam, unit: mm/us = 10^6 mm/s
+
+					if(recordedTime[0] >= recordedTime[1] && recordedTime[0] >= recordedTime[2])
+						printf("CW, 0 = %d, 1 = %d, 2 = %d, speed =  %d (mm/s)\n", recordedTime[0], recordedTime[1], recordedTime[2], speed);
+					else if (recordedTime[2] >= recordedTime[1] && recordedTime[2] >= recordedTime[0])
+						printf("CCW, 0 = %d, 1 = %d, 2 = %d, speed = %d (mm/s)\n", recordedTime[0], recordedTime[1], recordedTime[2], speed);
+					else
+						printf("DIR ERROR\n");
+
+					timePtr = 0;
+					break;
+				default:
+					printf("Beam case error\n");
+					break;
+			}
+		}
+		else if (err == OS_ERR_TIMEOUT)
+		{
+			printf("OS_ERR_TIMEOUT\n");
+			timePtr = 0;
+			startTime = 0;
+			recordedTime[0] = 0;
+			recordedTime[1] = 0;
+			recordedTime[2] = 0;
+			recordedTime[3] = 0;
+		}
+		else printf("Beam case error: %d\n", err);
+
+		OSSemPost(Sem);
+		OSTimeDlyHMSM(0, 0, 0, 3); // Update every 3 miliseconds
+	}
+}
 
 //////////////////////////@@@@@@@@@@@@@@/////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -434,13 +493,22 @@ int main(void)
                   TASK_STACKSIZE,
                   NULL,
                   0);
-				  
+
   /*OSTaskCreateExt(tunePIDtask,
                   NULL,
                   (void *)&tunePIDtask_stk[TASK_STACKSIZE-1],
                   tunePIDtask_PRIORITY,
                   tunePIDtask_PRIORITY,
                   tunePIDtask_stk,
+                  TASK_STACKSIZE,
+                  NULL,
+                  0);*/
+  /*OSTaskCreateExt(Beamtask,
+                  NULL,
+                  (void *)&Beamtask_stk[TASK_STACKSIZE-1],
+                  Beamtask_PRIORITY,
+                  Beamtask_PRIORITY,
+                  Beamtask_stk,
                   TASK_STACKSIZE,
                   NULL,
                   0);*/
@@ -455,7 +523,7 @@ int main(void)
   alt_irq_register(SLIDERSW_IRQ, NULL,(void *)IRQ_SWITCHES);
   alt_irq_register(KEYBUTTONS_IRQ, NULL,(void *)IRQ_KEYS);
 
-  OSStart(); 
+  OSStart();
   return 0;
 }
 
